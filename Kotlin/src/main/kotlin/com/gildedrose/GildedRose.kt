@@ -6,6 +6,8 @@ class GildedRose(var items: List<Item>) {
         for (i in items.indices) {
             if (items[i].name == SpecialItemName.SULFURAS) continue
 
+            items[i].sellIn = items[i].sellIn - 1
+
             when (items[i].name) {
                 SpecialItemName.AGE_BRIE -> {
                     increaseQuality(items[i])
@@ -13,11 +15,11 @@ class GildedRose(var items: List<Item>) {
 
                 SpecialItemName.BACKSTAGE_PASSES -> {
                     increaseQuality(items[i])
-                    if (items[i].sellIn < 11) {
+                    if (items[i].sellIn < 10) {
                         increaseQuality(items[i])
                     }
 
-                    if (items[i].sellIn < 6) {
+                    if (items[i].sellIn < 5) {
                         increaseQuality(items[i])
                     }
                 }
@@ -25,14 +27,11 @@ class GildedRose(var items: List<Item>) {
                 else -> degradeQuality(items[i])
             }
 
-            items[i].sellIn = items[i].sellIn - 1
-
             if (items[i].sellIn < 0) {
                 if (items[i].name != SpecialItemName.AGE_BRIE) {
-                    if (items[i].name != SpecialItemName.BACKSTAGE_PASSES) {
-                        degradeQuality(items[i])
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality
+                    when (items[i].name) {
+                        SpecialItemName.BACKSTAGE_PASSES -> items[i].quality = 0
+                        else -> degradeQuality(items[i])
                     }
                 } else {
                     increaseQuality(items[i])
