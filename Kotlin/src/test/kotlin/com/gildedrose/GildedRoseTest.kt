@@ -127,6 +127,20 @@ internal class GildedRoseTest {
     }
 
     @Test
+    fun `given item is Backstage passes and sellIn is 11 when end of the date then degrade SellIn and Quality increase by 1`() {
+        // Arrange
+        val backStagePasses = Item("Backstage passes to a TAFKAL80ETC concert", 11, 20)
+        val app = GildedRose(listOf(backStagePasses))
+
+        // Action
+        app.updateQuality()
+
+        // Assert
+        assertEquals(10, app.items[0].sellIn)
+        assertEquals(21, app.items[0].quality)
+    }
+
+    @Test
     fun `given item is Backstage passes and sellIn is 10 when end of the date then degrade SellIn and Quality increase by 2`() {
         // Arrange
         val backStagePasses = Item("Backstage passes to a TAFKAL80ETC concert", 10, 20)
@@ -141,6 +155,34 @@ internal class GildedRoseTest {
     }
 
     @Test
+    fun `given item is Backstage passes and sellIn is 9 when end of the date then degrade SellIn and Quality increase by 2`() {
+        // Arrange
+        val backStagePasses = Item("Backstage passes to a TAFKAL80ETC concert", 9, 20)
+        val app = GildedRose(listOf(backStagePasses))
+
+        // Action
+        app.updateQuality()
+
+        // Assert
+        assertEquals(8, app.items[0].sellIn)
+        assertEquals(22, app.items[0].quality)
+    }
+
+    @Test
+    fun `given item is Backstage passes and sellIn is 6 when end of the date then degrade SellIn and Quality increase by 2`() {
+        // Arrange
+        val backStagePasses = Item("Backstage passes to a TAFKAL80ETC concert", 6, 20)
+        val app = GildedRose(listOf(backStagePasses))
+
+        // Action
+        app.updateQuality()
+
+        // Assert
+        assertEquals(5, app.items[0].sellIn)
+        assertEquals(22, app.items[0].quality)
+    }
+
+    @Test
     fun `given item is Backstage passes and sellIn is 5 when end of the date then degrade SellIn and Quality increase by 3`() {
         // Arrange
         val backStagePasses = Item("Backstage passes to a TAFKAL80ETC concert", 5, 20)
@@ -151,6 +193,20 @@ internal class GildedRoseTest {
 
         // Assert
         assertEquals(4, app.items[0].sellIn)
+        assertEquals(23, app.items[0].quality)
+    }
+
+    @Test
+    fun `given item is Backstage passes and sellIn is 4 when end of the date then degrade SellIn and Quality increase by 3`() {
+        // Arrange
+        val backStagePasses = Item("Backstage passes to a TAFKAL80ETC concert", 4, 20)
+        val app = GildedRose(listOf(backStagePasses))
+
+        // Action
+        app.updateQuality()
+
+        // Assert
+        assertEquals(3, app.items[0].sellIn)
         assertEquals(23, app.items[0].quality)
     }
 
