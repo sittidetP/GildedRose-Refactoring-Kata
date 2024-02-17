@@ -28,13 +28,10 @@ class GildedRose(var items: List<Item>) {
             }
 
             if (items[i].sellIn < 0) {
-                if (items[i].name != SpecialItemName.AGE_BRIE) {
-                    when (items[i].name) {
-                        SpecialItemName.BACKSTAGE_PASSES -> items[i].quality = 0
-                        else -> degradeQuality(items[i])
-                    }
-                } else {
-                    increaseQuality(items[i])
+                when (items[i].name) {
+                    SpecialItemName.AGE_BRIE -> increaseQuality(items[i])
+                    SpecialItemName.BACKSTAGE_PASSES -> items[i].quality = 0
+                    else -> degradeQuality(items[i])
                 }
             }
         }
