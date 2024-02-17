@@ -6,28 +6,23 @@ class GildedRose(var items: List<Item>) {
         for (i in items.indices) {
             if (items[i].name == SpecialItemName.SULFURAS) continue
 
-            if (items[i].name != SpecialItemName.AGE_BRIE && items[i].name != SpecialItemName.BACKSTAGE_PASSES) {
-                if (items[i].quality > 0) {
-                    items[i].quality = items[i].quality - 1
+            when (items[i].name) {
+                SpecialItemName.AGE_BRIE -> {
+                    increaseQuality(items[i])
                 }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1
 
-                    if (items[i].name == SpecialItemName.BACKSTAGE_PASSES) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
-                            }
-                        }
+                SpecialItemName.BACKSTAGE_PASSES -> {
+                    increaseQuality(items[i])
+                    if (items[i].sellIn < 11) {
+                        increaseQuality(items[i])
+                    }
 
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
-                            }
-                        }
+                    if (items[i].sellIn < 6) {
+                        increaseQuality(items[i])
                     }
                 }
+
+                else -> degradeQuality(items[i])
             }
 
             items[i].sellIn = items[i].sellIn - 1
@@ -35,20 +30,27 @@ class GildedRose(var items: List<Item>) {
             if (items[i].sellIn < 0) {
                 if (items[i].name != SpecialItemName.AGE_BRIE) {
                     if (items[i].name != SpecialItemName.BACKSTAGE_PASSES) {
-                        if (items[i].quality > 0) {
-                            items[i].quality = items[i].quality - 1
-                        }
+                        degradeQuality(items[i])
                     } else {
                         items[i].quality = items[i].quality - items[i].quality
                     }
                 } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1
-                    }
+                    increaseQuality(items[i])
                 }
             }
         }
     }
 
+    private fun degradeQuality(item: Item) {
+        if (item.quality > 0) {
+            item.quality = item.quality - 1
+        }
+    }
+
+    private fun increaseQuality(item: Item, value: Int = 1) {
+        if (item.quality < 50) {
+            item.quality = item.quality + value
+        }
+    }
 }
 
