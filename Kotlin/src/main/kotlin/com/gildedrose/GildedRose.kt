@@ -6,33 +6,26 @@ class GildedRose(var items: List<Item>) {
         for (item in items) {
             if (item.name == SpecialItemName.SULFURAS) continue
 
-            item.sellIn = item.sellIn - 1
+            item.sellIn -= 1
 
+            val isSellInLessThanZero = item.sellIn < 0
+            val qualityValue = if (isSellInLessThanZero) 2 else 1
             when (item.name) {
-                SpecialItemName.AGE_BRIE -> {
-                    increaseQuality(item)
-                }
-
+                SpecialItemName.AGE_BRIE -> increaseQuality(item, qualityValue)
                 SpecialItemName.BACKSTAGE_PASSES -> {
-                    increaseQuality(item)
-                    if (item.sellIn < 10) {
-                        increaseQuality(item)
-                    }
-
-                    if (item.sellIn < 5) {
-                        increaseQuality(item)
+                    if (isSellInLessThanZero) {
+                        item.quality = 0
+                    } else {
+                        var backStagePassesQuality = 1
+                        if (item.sellIn < 5) {
+                            backStagePassesQuality = 3
+                        } else if (item.sellIn < 10) {
+                            backStagePassesQuality = 2
+                        }
+                        increaseQuality(item, backStagePassesQuality)
                     }
                 }
-
-                else -> degradeQuality(item)
-            }
-
-            if (item.sellIn < 0) {
-                when (item.name) {
-                    SpecialItemName.AGE_BRIE -> increaseQuality(item)
-                    SpecialItemName.BACKSTAGE_PASSES -> item.quality = 0
-                    else -> degradeQuality(item)
-                }
+                else -> degradeQuality(item, qualityValue)
             }
         }
     }
