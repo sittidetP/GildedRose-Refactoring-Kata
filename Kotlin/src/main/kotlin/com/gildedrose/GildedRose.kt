@@ -25,6 +25,7 @@ class GildedRose(var items: List<Item>) {
                         increaseQuality(item, backStagePassesQuality)
                     }
                 }
+                SpecialItemName.CONJURED -> degradeQuality(item, qualityValue * 2)
                 else -> degradeQuality(item, qualityValue)
             }
         }

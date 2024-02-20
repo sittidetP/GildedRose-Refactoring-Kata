@@ -223,6 +223,34 @@ internal class GildedRoseTest {
         assertEquals(-1, app.items[0].sellIn)
         assertEquals(0, app.items[0].quality)
     }
+
+    @Test
+    fun `given item is Conjured when end of the date then degrade SellIn and Quality by 2`() {
+        // Arrange
+        val backStagePasses = Item("Conjured Mana Cake", 10, 20)
+        val app = GildedRose(listOf(backStagePasses))
+
+        // Action
+        app.updateQuality()
+
+        // Assert
+        assertEquals(9, app.items[0].sellIn)
+        assertEquals(18, app.items[0].quality)
+    }
+
+    @Test
+    fun `given item is Conjured and sellIn is 0 when end of the date then degrade SellIn and Quality by 4`() {
+        // Arrange
+        val backStagePasses = Item("Conjured Mana Cake", 0, 20)
+        val app = GildedRose(listOf(backStagePasses))
+
+        // Action
+        app.updateQuality()
+
+        // Assert
+        assertEquals(-1, app.items[0].sellIn)
+        assertEquals(16, app.items[0].quality)
+    }
 }
 
 
