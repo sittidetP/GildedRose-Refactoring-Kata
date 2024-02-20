@@ -3,43 +3,43 @@ package com.gildedrose
 class GildedRose(var items: List<Item>) {
 
     fun updateQuality() {
-        for (i in items.indices) {
-            if (items[i].name == SpecialItemName.SULFURAS) continue
+        for (item in items) {
+            if (item.name == SpecialItemName.SULFURAS) continue
 
-            items[i].sellIn = items[i].sellIn - 1
+            item.sellIn = item.sellIn - 1
 
-            when (items[i].name) {
+            when (item.name) {
                 SpecialItemName.AGE_BRIE -> {
-                    increaseQuality(items[i])
+                    increaseQuality(item)
                 }
 
                 SpecialItemName.BACKSTAGE_PASSES -> {
-                    increaseQuality(items[i])
-                    if (items[i].sellIn < 10) {
-                        increaseQuality(items[i])
+                    increaseQuality(item)
+                    if (item.sellIn < 10) {
+                        increaseQuality(item)
                     }
 
-                    if (items[i].sellIn < 5) {
-                        increaseQuality(items[i])
+                    if (item.sellIn < 5) {
+                        increaseQuality(item)
                     }
                 }
 
-                else -> degradeQuality(items[i])
+                else -> degradeQuality(item)
             }
 
-            if (items[i].sellIn < 0) {
-                when (items[i].name) {
-                    SpecialItemName.AGE_BRIE -> increaseQuality(items[i])
-                    SpecialItemName.BACKSTAGE_PASSES -> items[i].quality = 0
-                    else -> degradeQuality(items[i])
+            if (item.sellIn < 0) {
+                when (item.name) {
+                    SpecialItemName.AGE_BRIE -> increaseQuality(item)
+                    SpecialItemName.BACKSTAGE_PASSES -> item.quality = 0
+                    else -> degradeQuality(item)
                 }
             }
         }
     }
 
-    private fun degradeQuality(item: Item) {
+    private fun degradeQuality(item: Item, value: Int = 1) {
         if (item.quality > 0) {
-            item.quality = item.quality - 1
+            item.quality = item.quality - value
         }
     }
 
